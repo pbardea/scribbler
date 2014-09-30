@@ -1,10 +1,16 @@
 from myro import *
 
+init("/dev/tty.IPRE6-185826-DevB")
+increment = [0.4,1] #set increment speed, time (between checks)
+
 '''
-step 1: approach box and turn right 90 deg when close
+todo:
+  calibrate 90 degree turns
+  what if box isn't perpendicular
+  make corners tighter
+  RELIABLE
 '''
 
-init("/dev/tty.IPRE6-185826-DevB")
 
 def rightTurnAngle(angle):
   turnRight(0.3,3.0/90*angle)
@@ -47,7 +53,7 @@ def clearSide():
   cleared = False
   while (not cleared):
     counter += 1
-    forward(0.4,1)
+    forward(increment[0],increment[1])
     cleared = checkClear()
     if cleared:
       forward(0)
@@ -55,23 +61,23 @@ def clearSide():
       rightTurn()
   return counter
 
-def clearLast(cycles):
+def clearLastSide(cycles):
   for i in range(cycles):
-    forward(0.4,1)
+    forward(increment[0],increment[1])
   rightTurn()
   forward(0.4,5)
   
 
+def boost(threshold):#this function gives it a little boost if the left sensor exceeds a certain threshold
+  if getObstacle(0) > threshold:#this adds a little boost if an obstacle is detected by the left sensor.
+    rightTurn()
+    forward(0.4,0.6)#amount of boost
+    leftTurn()
+
 approachBox()
 count = clearSide()
-if getObstacle(0) > 500:
-  rightTurn()
-  forward(0.4,0.6)
-  leftTurn()
-forward(0.4,2)
+boost(400)
+forward(0.4,2)#you know that you have to go forward at least the length of the robot, so no point in keep checking
 clearSide()
-if getObstacle(0) > 500:
-  rightTurn()
-  forward(0.4,0.6)
-  leftTurn()
-clearLast(count)
+boost(400)
+clearLastSide(count)
