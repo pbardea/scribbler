@@ -9,6 +9,7 @@ todo:
   what if box isn't perpendicular
   make corners tighter
   RELIABLE
+  multiple object detection
 '''
 
 
