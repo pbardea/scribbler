@@ -1,7 +1,7 @@
 from myro import *
 
 init("/dev/tty.IPRE6-185826-DevB")
-increment = [0.4,1] #set increment speed, time (between checks)
+increment = [0.4,1.2] #set increment speed, time (between checks)
 
 '''
 todo:
@@ -17,10 +17,10 @@ def rightTurnAngle(angle):
   turnRight(0.3,3.0/90*angle)
 
 def rightTurn():
-  turnRight(0.3,2.9)
+  turnRight(0.3,3.0)
 
 def leftTurn():
-  turnLeft(0.3,2.9)
+  turnLeft(0.3,3.0)
 
 
 def approachBox():
@@ -30,7 +30,7 @@ def approachBox():
 
   while(not obs):
     data = getObstacle()
-    if data[1] > 1050:
+    if data[1] > 850:
       dataCounter += 1
     else:
       dataCounter = 0
@@ -72,13 +72,14 @@ def clearLastSide(cycles):
 def boost(threshold):#this function gives it a little boost if the left sensor exceeds a certain threshold
   if getObstacle(0) > threshold:#this adds a little boost if an obstacle is detected by the left sensor.
     rightTurn()
-    forward(0.4,0.6)#amount of boost
+    forward(0.4,1)#amount of boost
     leftTurn()
 
 approachBox()
 count = clearSide()
-boost(400)
+boost(100)
 forward(0.4,2)#you know that you have to go forward at least the length of the robot, so no point in keep checking
 clearSide()
-boost(400)
+boost(100)
+forward(0.4,0.4)#make sure you have enough room to turn right at the end
 clearLastSide(count)
