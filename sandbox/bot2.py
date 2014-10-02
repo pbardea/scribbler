@@ -13,6 +13,10 @@ todo:
   multiple object detection
 '''
 
+def smoothLeft(ltSpd, rtSpd, time):
+  while timeRemaining(time):
+    motors(ltSpd,rtSpd):
+  stop()
 
 def rightTurnAngle(angle):
   turnRight(0.3,3.0/90*angle)
@@ -65,7 +69,7 @@ def clearSide():
     cleared = checkClear()
     if cleared:
       rightTurn()
-      forward(clearCorner[0],clearCorner[1])
+      smoothTurn(.2,.4,4)
       leftTurn()
     else:
       rightTurn()
