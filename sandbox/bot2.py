@@ -17,10 +17,10 @@ def rightTurnAngle(angle):
   turnRight(0.3,3.0/90*angle)
 
 def rightTurn():
-  turnRight(0.3,3.2)
+  turnRight(0.2,4.48)
 
 def leftTurn():
-  turnLeft(0.3,3.2)
+  turnLeft(0.2,4.52)
 
 
 def approachBox():
@@ -43,7 +43,7 @@ def approachBox():
 
 def checkClear():
   leftTurn()
-  if getObstacle(1) > 800:
+  if getObstacle(0) > 1000:
     return False
   else:
     return True
@@ -57,7 +57,9 @@ def clearSide():
     forward(increment[0],increment[1])
     cleared = checkClear()
     if cleared:
-      forward(0)
+      rightTurn()
+      forward(0.3,3)
+      leftTurn()
     else:
       rightTurn()
   return counter
