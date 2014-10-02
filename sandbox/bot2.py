@@ -17,10 +17,10 @@ def rightTurnAngle(angle):
   turnRight(0.3,3.0/90*angle)
 
 def rightTurn():
-  turnRight(0.3,3.0)
+  turnRight(0.3,3.2)
 
 def leftTurn():
-  turnLeft(0.3,3.0)
+  turnLeft(0.3,3.2)
 
 
 def approachBox():
@@ -30,7 +30,7 @@ def approachBox():
 
   while(not obs):
     data = getObstacle()
-    if data[1] > 1000:
+    if data[1] > 1100:
       dataCounter += 1
     else:
       dataCounter = 0
