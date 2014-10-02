@@ -15,7 +15,7 @@ todo:
 
 def smoothLeft(ltSpd, rtSpd, time):
   while timeRemaining(time):
-    motors(ltSpd,rtSpd):
+    motors(ltSpd,rtSpd)
   stop()
 
 def rightTurnAngle(angle):
@@ -69,7 +69,7 @@ def clearSide():
     cleared = checkClear()
     if cleared:
       rightTurn()
-      smoothTurn(.2,.4,4)
+      smoothLeft(.2,.4,4)
       leftTurn()
     else:
       rightTurn()
