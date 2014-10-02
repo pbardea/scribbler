@@ -2,7 +2,7 @@ from myro import *
 
 init("com7")
 increment = [0.4,1.2] #set increment speed, time (between checks)
-clearCorner = [0.3,2.8]
+clearCorner = [0.3,2.6]
 
 '''
 todo:
@@ -32,7 +32,7 @@ def approachBox():
 
   while(not obs):
     data = getObstacle()
-    avg = (avg*19+data[1])/20
+    avg = (avg*9+data[1])/10
 
     if avg > 800:
       obs = True
