@@ -1,7 +1,7 @@
 from myro import *
 
 init("com7")
-increment = [0.4,1.2] #set increment speed, time (between checks)
+increment = [0.3,1.2] #set increment speed, time (between checks)
 clearCorner = [0.3,2.6]
 
 '''
