@@ -28,16 +28,22 @@ def approachBox():
   obs = False
   forward(0.4)  
   dataCounter = 0
+  avg = 0
 
   while(not obs):
     data = getObstacle()
-    if data[1] > 1100:
-      dataCounter += 1
-    else:
-      dataCounter = 0
+    avg = (avg*19+data[1])/20
 
-    if dataCounter > 9:
+    if avg > 800:
       obs = True
+
+    # if data[1] > 1100:
+    #   dataCounter += 1
+    # else:
+    #   dataCounter = 0
+
+    # if dataCounter > 9:
+    #   obs = True
 
   forward(0)
   rightTurn()
