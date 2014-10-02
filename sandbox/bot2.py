@@ -79,23 +79,11 @@ def clearLastSide(cycles):
   forward(0.4,5)
   
 
-def boost(threshold):#this function gives it a little boost if the left sensor exceeds a certain threshold
-  didBoost = False
-  if getObstacle(0) > threshold:#this adds a little boost if an obstacle is detected by the left sensor.
-    rightTurn()
-    forward(increment[0],increment[1])#amount of boost
-    didBoost = True
-    leftTurn()
-  return didBoost
 
 #STARTS HERE
 approachBox()
 count = clearSide()
-if (boost(100)):
-  count += 1  
 forward(0.4,2)#you know that you have to go forward at least the length of the robot, so no point in keep checking
 clearSide()
-if (boost(100)):
-  count += 1
 forward(0.4,0.4)#make sure you have enough room to turn right at the end
 clearLastSide(count)
