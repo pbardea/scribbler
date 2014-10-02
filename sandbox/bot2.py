@@ -54,7 +54,7 @@ def approachBox():
 
 def checkClear():
   leftTurn()
-  if getObstacle(0) > 1000:
+  if getObstacle(0) > 800:
     return False
   else:
     return True
@@ -69,7 +69,7 @@ def clearSide():
     cleared = checkClear()
     if cleared:
       rightTurn()
-      smoothLeft(.2,.4,4)
+      smoothLeft(.2,.6,4)
       leftTurn()
     else:
       rightTurn()
