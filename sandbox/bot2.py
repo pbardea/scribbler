@@ -1,7 +1,8 @@
 from myro import *
 
-init("/dev/tty.IPRE6-185826-DevB")
+init("com7")
 increment = [0.4,1.2] #set increment speed, time (between checks)
+clearCorner = [0.3,2.8]
 
 '''
 todo:
@@ -58,13 +59,14 @@ def clearSide():
     cleared = checkClear()
     if cleared:
       rightTurn()
-      forward(0.3,3)
+      forward(clearCorner[0],clearCorner[1])
       leftTurn()
     else:
       rightTurn()
   return counter
 
 def clearLastSide(cycles):
+  forward(clearCorner[0],clearCorner[1])
   for i in range(cycles):
     forward(increment[0],increment[1])
   rightTurn()
