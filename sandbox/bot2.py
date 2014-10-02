@@ -70,7 +70,6 @@ def clearSide():
     if cleared:
       rightTurn()
       smoothLeft(.2,.6,4)
-      leftTurn()
     else:
       rightTurn()
   return counter
