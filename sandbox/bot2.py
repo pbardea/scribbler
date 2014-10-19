@@ -1,8 +1,9 @@
-from myro import *
+#from myro import *
 
-init("com7")
+#init("com7")
 increment = [0.3,1.2] #set increment speed, time (between checks)
 clearCorner = [0.3,2.6]
+back = 2
 
 '''
 todo:
@@ -13,6 +14,28 @@ todo:
   multiple object detection
 '''
 
+def forward2(speed):
+    average=getAvgOb(1,10);
+    threshold=1070
+    distance=0
+    while(True):
+        average = getAvgOb(1,10)
+        #average = averagetAvgOb(1,1)/10 + average*9/10
+        print average
+        if(average>threshold):
+            print "Breaking"
+            break
+        forward(speed,0.3)
+        distance += 0.3;
+    return distance
+
+def getAvgOb(obs, num):
+    total = 0.0;
+    for i in range (0,num):
+        total += getObstacle(obs);
+    total = total/num;
+    return total;
+
 def smoothLeft(ltSpd, rtSpd, time):
   while timeRemaining(time):
     motors(ltSpd,rtSpd)
@@ -22,10 +45,10 @@ def rightTurnAngle(angle):
   turnRight(0.3,3.0/90*angle)
 
 def rightTurn():
-  turnRight(0.2,4.48)
+  turnRight(0.4,1.9)
 
 def leftTurn():
-  turnLeft(0.2,4.52)
+  turnLeft(0.4,1.9)
 
 
 def approachBox():
@@ -38,7 +61,7 @@ def approachBox():
     data = getObstacle()
     avg = (avg*9+data[1])/10
 
-    if avg > 800:
+    if avg > 960:
       obs = True
 
     # if data[1] > 1100:
@@ -54,7 +77,7 @@ def approachBox():
 
 def checkClear():
   leftTurn()
-  if getObstacle(0) > 800:
+  if getObstacle(2) > 900:
     return False
   else:
     return True
@@ -69,24 +92,25 @@ def clearSide():
     cleared = checkClear()
     if cleared:
       rightTurn()
+      forward(-0.3,back)
       smoothLeft(.2,.6,4)
     else:
       rightTurn()
   return counter
 
 def clearLastSide(cycles):
-  forward(clearCorner[0],clearCorner[1])
   for i in range(cycles):
-    forward(increment[0],increment[1])
+      forward(increment[0],increment[1])
+  forward(-0.3,back)
   rightTurn()
   forward(0.4,5)
   
 
 
 #STARTS HERE
-approachBox()
+forward2(0.5)
+forward(0.5,0.8)
+rightTurn()
 count = clearSide()
-forward(0.4,2)#you know that you have to go forward at least the length of the robot, so no point in keep checking
 clearSide()
-forward(0.4,0.4)#make sure you have enough room to turn right at the end
 clearLastSide(count)
