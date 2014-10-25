@@ -1,22 +1,21 @@
-def forward2(speed):
-    average=getAvgOb(1,10);
-    threshold=1070
+def forward2(speed,threshold):
+    average=getAvgOb(1,10)
     distance=0
     while(True):
         average = getAvgOb(1,10)
         #average = averagetAvgOb(1,1)/10 + average*9/10
-        print average
+        #print average
         if(average>threshold):
-            print "Breaking"
+            #print "Breaking"
             break
         forward(speed,0.3)
         distance += 0.3;
     return distance
 
-def rightTurnAngle(angle):
+def turnRightA(angle):
     turnRight(0.3,3.0/90*angle)
 
-def leftTurnAngle(angle):
+def turnLeftA(angle):
     turnLeft(0.3,3.0/90*angle)
 
 def getAvgOb(obs, num):
@@ -201,7 +200,62 @@ def test4():
         leftTurnAngle(counter2*angle+10)
    
     
-test4()
+#test4()
 
+threshold = 300;
+sensor = 0
+def findLeftEdgeFluke():
+    turn = -30#########
+    turnLeftA(30)##########
+    a = getAvgOb(sensor,10)
+    if a<threshold:
+        for i in range(0,3):
+            turn-=5
+            turnLeftA(5)
+            a = getAvgOb(sensor,10)
+            if  a>threshold:
+                break
+    else:
+        while a>threshold:
+            turn+=5
+            turnRightA(5)
+            a = getAvgOb(sensor,10)
+    return turn
+
+def findLeftEdgeIR():
+    turn = -45
+    turnLeftA(45)
+    if getIR(0)==1:
+        for i in range(0,5):
+            if getIR(0)==0:
+                break;
+            turnLeftA(2)
+            turn-=2
+    else:
+        while getIR(0)==0:
+            turnRightA(2)
+            turn+=2
+    return turn
+
+def doBox():
+    forward2(0.5,1000)#base approach of box
+    forward(0.25,2)#extra forward boost
+    lastTurn=0
+    thisTurn=0
+    counter=0
+    turnLeftA(90)
+    while True:
+        thisTurn = findLeftEdgeIR()
+        print thisTurn
+        turnRightA(45)########
+        forward(-0.5,0.5)
+        lastTurn=thisTurn
+doBox();
+
+def calibrate():
+    while True:
+        print getAvgOb(0,10)
+
+#calibrate()
 
 print "DONE";

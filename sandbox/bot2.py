@@ -1,9 +1,8 @@
 #from myro import *
 
 #init("com7")
-increment = [0.3,1.2] #set increment speed, time (between checks)
-clearCorner = [0.3,2.6]
-back = 2
+increment = [0.3,1.2] ##set increment speed, time (between checks)
+back = 1
 
 '''
 todo:
@@ -16,7 +15,7 @@ todo:
 
 def forward2(speed):
     average=getAvgOb(1,10);
-    threshold=1070
+    threshold=900
     distance=0
     while(True):
         average = getAvgOb(1,10)
@@ -27,6 +26,7 @@ def forward2(speed):
             break
         forward(speed,0.3)
         distance += 0.3;
+    forward(0.5,0.7)
     return distance
 
 def getAvgOb(obs, num):
@@ -36,7 +36,7 @@ def getAvgOb(obs, num):
     total = total/num;
     return total;
 
-def smoothLeft(ltSpd, rtSpd, time):
+def smoothTurn(ltSpd, rtSpd, time):
   while timeRemaining(time):
     motors(ltSpd,rtSpd)
   stop()
@@ -44,11 +44,14 @@ def smoothLeft(ltSpd, rtSpd, time):
 def rightTurnAngle(angle):
   turnRight(0.3,3.0/90*angle)
 
+def leftTurnAngle(angle):
+  turnLeft(0.3,3.01/90*angle)
+
 def rightTurn():
   turnRight(0.4,1.9)
 
 def leftTurn():
-  turnLeft(0.4,1.9)
+  turnLeft(0.4,1.907)
 
 
 def approachBox():
@@ -75,42 +78,86 @@ def approachBox():
   forward(0)
   rightTurn()
 
-def checkClear():
+def checkClearLeft():
   leftTurn()
-  if getObstacle(2) > 900:
+  obs = getAvgOb(1,5)
+  rightTurn()
+  if  obs > 900:
+    return False
+  else:
+    return True
+  
+def checkClearRight():
+  rightTurn()
+  obs = getAvgOb(1,5)
+  leftTurn()
+  if  obs > 900:
     return False
   else:
     return True
 
+def findEdge():
+  counter = 0.0
+  foundBox = False
+  while (not foundBox):
+    counter -= 0.5
+    forward(-increment[0],increment[1]/2)
+    foundBox = not checkClearLeft()
+  return counter
 
-def clearSide():
-  counter = 0
+def clearSide(direction):
+  counter = 0.0
   cleared = False
   while (not cleared):
     counter += 1
     forward(increment[0],increment[1])
-    cleared = checkClear()
+    cleared = checkClearLeft()
     if cleared:
-      rightTurn()
+      counter += findEdge()
       forward(-0.3,back)
-      smoothLeft(.2,.6,4)
-    else:
-      rightTurn()
+      if direction==0:
+        smoothTurn(.2,.625,4.2)
+      else:
+        smoothTurn(.625,.2,4.2)#####TODO
   return counter
 
-def clearLastSide(cycles):
-  for i in range(cycles):
-      forward(increment[0],increment[1])
-  forward(-0.3,back)
-  rightTurn()
-  forward(0.4,5)
+def clearLastSide(cycles,direction):
+  forward(increment[0],increment[1]*cycles-back)
+  if direction==0:
+      rightTurn()
+  else:
+      leftTurn()
+  forward(0.5,2)
   
-
+def setUpPerp():
+    direction = 0
+    #leftTurnAngle(20)
+    measure1 = getAvgOb(1,10)
+    #rightTurnAngle(40)
+    measure2 = getAvgOb(1,10)+250
+    #leftTurnAngle(20)
+    print str(measure1)+" "+str(measure2)
+    #if abs(measure1-measure2)<200:
+    forward(0.5,0.8)
+    rightTurnAngle(90)
+    #elif measure1<measure2:
+    #    forward(0.5,0.7)
+    #    leftTurnAngle(45)
+    #    return 1
+    #else:
+    #    forward(0.5,0.7)
+    #    rightTurnAngle(45)
+    return 0
+    
 
 #STARTS HERE
-forward2(0.5)
-forward(0.5,0.8)
-rightTurn()
-count = clearSide()
-clearSide()
-clearLastSide(count)
+def box():
+  
+  forward2(0.3)
+  
+  direction = setUpPerp()
+  count = clearSide(direction%2)
+  clearSide(direction%2)
+  clearLastSide(count,direction%2)
+box()
+
