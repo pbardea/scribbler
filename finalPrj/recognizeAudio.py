@@ -1,5 +1,7 @@
 import speech_recognition as sr #import the speech recognition module
 
+def getTextInput():
+
 def getAudio():
     # r = sr.Recognizer(language = "en-US", key = "AIzaSyC0BY4MvU0DNvVkRuK0r9uSHtcl_SPdylI")
     r = sr.Recognizer() #initialize the recognizer
@@ -10,11 +12,23 @@ def getAudio():
     try:
         audioStr  = r.recognize(audio) #store audio in audioStr
     except LookupError: #can't understand audio
-        audioStr = "Could not understand audio"
+        # audioStr = "Could not understand audio"
+        audioStr = raw_input("Could not understand audio, please enter your command: ")
 
     return audioStr
 
-def decypherAudio(spoken):
+def convertCoord(cartesian):
+    arrayCoord = -1;
+    for i in range(-1,2):
+        for j in range(-1,2):
+            if (cartesian[0] == i and cartesian[1] == j):
+                i+=1
+                j+=1
+                j = 2-j
+                arrayCoord = j*3+i%3
+    return arrayCoord
+
+def getMove(spoken,botPos):
     vertical = -99
     horizontal = -99
     spoken = spoken.rstrip().split()
@@ -36,7 +50,7 @@ def decypherAudio(spoken):
             horizontal = 1
         elif ((word == 'middle') or (word == 'between')) and vertical != -99:
             horizontal = 0
-        elif (word == 'center'):
+        elif (word == 'centre'):
             vertical = 0
             horizontal = 0
         elif (word == 'middle') or (word == 'between'):
@@ -57,4 +71,4 @@ print """
              |-1,-1|0,-1|1,-1|
              ----------------
 """
-print decypherAudio(spoken)
+print getMove(spoken,[)
