@@ -20,6 +20,8 @@ def drawGrid():
 		print a[i],
 	print '|'
 
+
+
 def gridComplete():
 	for i in range(0,9):
 		if a[i] != 'X' or a[i] != 'O':
@@ -53,7 +55,7 @@ def twoLeft(): #when there is a combo of 2, returns winning move
 				return [comb[1], 'X']
 	return [-1, '_']
 
-while(gridComplete()==0):
+def usrTurn():
 	flag = 0
 	while(flag==0): 
 		n1 = raw_input("Player 1\n >")
@@ -61,14 +63,10 @@ while(gridComplete()==0):
 		if a[n1] == '_':
 			flag = 1
 	a[n1] = 'X'
-	drawGrid()
-	if(win()!=0):
-		print "Player 1 wins"
-		break
+
+def cpuTurn():
 	flag = 0
-	if(gridComplete() == 1):
-		break
-	print("Player 2's turn")
+	print("CPU's turn")
 	if(twoLeft()[1] == 'O'):		#Priority one- Complete your line
 		a[twoLeft()[0]] = 'O'
 	elif(twoLeft()[1] == 'X'):		#Priority two - Block the opponent's line
@@ -79,9 +77,28 @@ while(gridComplete()==0):
 			if a[n2] == '_':
 				flag = 1
 		a[n2] = 'O'
+c = 0
+while(not(c =='Y') and not(c =='N')):
+	c = raw_input("Press 'Y' if you want to start, 'N' if you don't.\n >")
+
+
+while(gridComplete()==0):
+	if c=='Y':
+		usrTurn()
+	elif c=='N':
+		cpuTurn()
 	drawGrid()
 	if(win()!=0):
-		print "Player 2 wins"
+		break
+	flag = 0
+	if(gridComplete() == 1):
+		break
+	if c=='Y':
+		cpuTurn()
+	elif c=='N':
+		usrTurn()
+	drawGrid()
+	if(win()!=0):
 		break
 
 if win() == 'X':
