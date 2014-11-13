@@ -30,7 +30,7 @@ def getAudio(tries):
 
     return audioStr
 
-def convertCoord(cartesian):
+def convertCartToArr(cartesian):
     arrayCoord = -1;
     for i in range(-1,2):
         for j in range(-1,2):
@@ -42,13 +42,15 @@ def convertCoord(cartesian):
     return arrayCoord
 
 def wordToInt(word):
-  convert = ['zero','one','two','three','four','five','six','seven','eight','nine']
-  #array serach function
+  convert = [['zero','none','nada'],['one','once','singular'],['two','twice','double']]
+  for i in range(len(convert)):
+    if word in convert[i]:
+      return i
 
 def relativeMotion(statement, botPos):#if a robot keyword is triggered, the last 10 words is passed back for decomposition
   #define botPos as a cartesian system with the bottom left corner of the centre cell as 0,0. Assuming staying on corners of centre cell
-  horizontal = botPos[0]
-  vertical = botPos[1]
+  horizontal = botPos[0]-0.5
+  vertical = botPos[1]+0.5
   lastInt = 1 #default, so if user says 'left', it will move one left of the robot by deafult
   for word in statement:
     if wordToInt(word) >= 0: #then a number was spoken
@@ -56,12 +58,16 @@ def relativeMotion(statement, botPos):#if a robot keyword is triggered, the last
     else: #process as a word
       if word in thesaurus['top']:
         vertical += lastInt
+        lastInt = 1
       elif word in thesaurus['bottom']:
         vertical -= lastInt
+        lastInt = 1
       elif word in thesaurus['left']:
         horizontal -= lastInt
+        lastInt = 1
       elif word in thesaurus['right']:
         horizontal += lastInt
+        lastInt = 1
   return [horizontal,vertical]
 
 
@@ -95,10 +101,10 @@ def getMove(spoken,botPos):
             vertical = newPos[1]
             break
         print word, horizontal, vertical
-    return [horizontal,vertical]
+    return convertCartToArr([horizontal,vertical])
     
-spoken = getAudio(0)
-# spoken = raw_input(":")
+# spoken = getAudio(0)
+spoken = raw_input(":")
 print spoken
 print """   
              _________________
