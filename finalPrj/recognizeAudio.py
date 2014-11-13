@@ -71,7 +71,7 @@ def relativeMotion(statement, botPos):#if a robot keyword is triggered, the last
   return [horizontal,vertical]
 
 
-def getMove(spoken,botPos):
+def interpret(spoken,botPos):
     vertical = -99
     horizontal = -99
     spoken = spoken.lower().rstrip().split()
@@ -103,19 +103,20 @@ def getMove(spoken,botPos):
         print word, horizontal, vertical
     return convertCartToArr([horizontal,vertical])
     
-# spoken = getAudio(0)
-spoken = raw_input(":")
-print spoken
-print """   
-             _________________
-             |     |    |    |
-             |-1,1 | 0,1|1,1 |
-             -----------------
-             |     |    |    |
-             |-1,0 | 0,0|1,0 |
-             -----------------
-             |     |    |    |
-             |-1,-1|0,-1|1,-1|
-             ----------------
-"""
-print getMove(spoken,[-1,1])
+def getMove():
+  spoken = getAudio(0)
+  # spoken = raw_input(":")
+  print spoken
+  print """   
+               _________________
+               |     |    |    |
+               |-1,1 | 0,1|1,1 |
+               -----------------
+               |     |    |    |
+               |-1,0 | 0,0|1,0 |
+               -----------------
+               |     |    |    |
+               |-1,-1|0,-1|1,-1|
+               ----------------
+  """
+  return interpret(spoken,[-1,1])
