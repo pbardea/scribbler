@@ -2,6 +2,7 @@
 Used to read in speech input and convert it to a action represented by numeric output.
 """
 import speech_recognition as sr #import the speech recognition module
+text_debug = True
 
 #global thesaurus
 thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','above'], 'bottom':['bottom','down','base','lowest','floor','bottommost','below','under','underneath'],'left':['left','leftmost'],'right':['right','rightmost'],'middle':['middle','between'],'centre':['centre'],'bot':{'robot','bot','theo','mario'}}
@@ -104,8 +105,10 @@ def interpret(spoken,botPos):
     return convertCartToArr([horizontal,vertical])
     
 def getMove():
-  spoken = getAudio(0)
-  # spoken = raw_input(":")
+  if (text_debug):
+    spoken = raw_input(":")
+  else:
+    spoken = getAudio(0)
   print spoken
   print """   
                _________________
