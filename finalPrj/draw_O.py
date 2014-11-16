@@ -8,15 +8,15 @@ def draw_O(lr):
 
 
 def draw_top(lr):
-    forward(1, 0.22)
+    forward(1, 0.32)
     draw_O(lr)
-    backward(1, 0.32)
+    backward(1, 0.42)
     stop()
 
 def draw_bottom(lr):
-    backward(1, 0.22)
+    backward(1, 0.32)
     draw_O(lr)
-    forward(1, 0.32)
+    forward(1, 0.42)
     stop()
 
 
