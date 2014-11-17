@@ -5,8 +5,9 @@ import movement
 
 board = {}				#Creating and initializing the grid
 for i in range(0, 9):
-  board[i] = '_';
+  board[i] = '_'
 
+diff = 'E'
 combs=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]] #List of all winning combinations
 
 def drawGrid():
@@ -94,35 +95,60 @@ def usrTurn():			#Function that executes a user's turn
 def cpuTurn():			#Function that executes a CPU's turn. This is where the priority list is.
   flag = 0
   print("CPU's turn")
-  if(twoLeft()[1] == 'O'):		#Priority one- Complete your line
-    board[twoLeft()[0]] = 'O'
-    movement.play(arrToCart(twoLeft()[0]),'O')
-    return
-  elif(twoLeft()[1] == 'X'):		#Priority two - Block the opponent's line
-    board[twoLeft()[0]] = 'O'
-    movement.play(arrToCart(twoLeft()[0]),'O')
-    return
-  elif oneLeft():					#Priority three - Block fork by creating an opportunity
-    board[oneLeft()[0]] = 'O'
-    movement.play(arrToCart(oneLeft()[0]),'O')
-  elif board[4] == '_':					#Priority four - Get the center
-    board[4] = 'O'
-    movement.play(arrToCart(4),'O')
-    return
-  elif chkCorner()!=-1:			#Priority five - Get the opposite end	
-    board[chkCorner()] = 'O'
-    movement.play(arrToCart(chkCorner()),'O')
-  else:							#Priority six - Whatever. I don't care
-    for i in range(0,9):
-      if board[i] == '_':
+  if diff == 'H':
+    if(twoLeft()[1] == 'O'):		#Priority one- Complete your line
+      board[twoLeft()[0]] = 'O'
+      movement.play(arrToCart(twoLeft()[0]),'O')
+      return
+    elif(twoLeft()[1] == 'X'):		#Priority two - Block the opponent's line
+      board[twoLeft()[0]] = 'O'
+      movement.play(arrToCart(twoLeft()[0]),'O')
+      return
+    elif oneLeft():					#Priority three - Block fork by creating an opportunity
+      board[oneLeft()[0]] = 'O'
+      movement.play(arrToCart(oneLeft()[0]),'O')
+    elif board[4] == '_':					#Priority four - Get the center
+      board[4] = 'O'
+      movement.play(arrToCart(4),'O')
+      return
+    elif chkCorner()!=-1:			#Priority five - Get the opposite end	
+      board[chkCorner()] = 'O'
+      movement.play(arrToCart(chkCorner()),'O')
+    else:							#Priority six - Whatever. I don't care
+      for i in range(0,9):
+        if board[i] == '_':
+          board[i] = 'O'
+          movement.play(arrToCart(i),'O')
+          break
+  elif diff == 'M':
+    if(twoLeft()[1] == 'O'):    #Priority one- Complete your line
+      board[twoLeft()[0]] = 'O'
+      movement.play(arrToCart(twoLeft()[0]),'O')
+      return
+    elif(twoLeft()[1] == 'X'):    #Priority two - Block the opponent's line
+      board[twoLeft()[0]] = 'O'
+      movement.play(arrToCart(twoLeft()[0]),'O')
+      return
+    else:             #Priority six - Whatever. I don't care
+      for i in range(0,9):
+        if board[i] == '_':
+          board[i] = 'O'
+          movement.play(arrToCart(i),'O')
+          break
+  elif diff == 'E':
+    flag = 0
+    while flag == 0:
+      x = random.randint(0,8)
+      if(board[i] == '_'):
         board[i] = 'O'
-        movement.play(arrToCart(i),'O')
-        break
+        flag = 1
 
 def run():
   usrStart = 0					
   while(not(usrStart =='Y') and not(usrStart =='N')):
     usrStart = raw_input("Press 'Y' if you want to start, 'N' if you don't.\n >")
+  while not(diff == 'E' or diff == 'M' or diff == 'H'):
+    diff = raw_input("Enter the difficulty level. (E/M/H)\n >")
   while(gridComplete()==0):
     if usrStart=='Y':
       usrTurn()
