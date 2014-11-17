@@ -16,7 +16,7 @@ def vertical_movement(ud):
         backward(motor_speed, time_box)
 
 def horizontal_movement(lr):
-    time_90 = 0.835
+    time_90 = 1.6478
     time_box = 1.62
     motor_speed = 0.5
     if(lr=="right"):
