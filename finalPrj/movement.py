@@ -6,7 +6,7 @@
 ###
 from myro import *
 
-pos = 1
+curPos = 1
 grid_position = {1: [-0.5, -0.5], 2: [-0.5, 0.5], 3: [0.5, 0.5], 4: [0.5, -0.5]}
 
 
@@ -30,7 +30,7 @@ def vertical_movement(ud):#move up or down by a cell
         backward(motor_speed, time_box)
 
 def getPos(): #returns current position of the robot
-    return grid_position[pos]
+    return grid_position[curPos]
 
 def horizontal_movement(lr): #moves left or right by 1 cell
     time_90 = 1.6478
@@ -48,8 +48,46 @@ def horizontal_movement(lr): #moves left or right by 1 cell
         forward(motor_speed, time_90)
         wait(.2)
         threesixty(motor_speed, -1*motor_speed, time_90)
+def safeRemove(a,x):
+  if x in a:
+    a.remove(x)
+  return a
 
-def movement(position, destination):#moves from position to destination
+def play(destination, element): #move to right corner and play, destination is in cart form
+  cartPos = grid_position[curPos]
+  valid = [1,2,3,4]
+  if destination[0] >= 0:
+    valid = safeRemove(valid,1)
+    valid = safeRemove(valid,2)
+  if destination[0] == -1:
+    valid = safeRemove(valid,3)
+    valid = safeRemove(valid,4)
+  if destination[1] >= 0:
+    valid = safeRemove(valid,1)
+    valid = safeRemove(valid,4)
+  if destination[1] == -1:
+    valid = safeRemove(valid,2)
+    valid = safeRemove(valid,3)
+  if destination[0] == destination[1] and destination[0] == 0:
+    valid = safeRemove(valid,2)
+    valid = safeRemove(valid,3)
+    valid = safeRemove(valid,4)
+  ud = "up"
+  lr = "left"
+  if destination[0] < cartPos[0]:
+    lr = "left"
+  else:
+    lr = "right"
+  if destination[1] < cartPos[1]:
+    ud = "down"
+  else:
+    ud = "up"
+  if element == "O":
+    draw_O_at(ud,lr)
+  else:
+    draw_l_at(ud,lr)
+
+def navCorner(position, destination):#moves from position to destination
 
 #straight lines between positions
     
@@ -85,4 +123,4 @@ def movement(position, destination):#moves from position to destination
         horizontal_movement("left")
         vertical_movement("up")
 
-    pos = destination
+    curPos = destination

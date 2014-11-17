@@ -1,5 +1,6 @@
 from random import randint
 import recognizeAudio
+import movement
 
 board = {}				#Creating and initializing the grid
 for i in range(0, 9):
@@ -104,7 +105,7 @@ def cpuTurn():			#Function that executes a CPU's turn. This is where the priorit
         board[i] = 'O'
         break
 
-def main():
+def run():
   usrStart = 0					
   while(not(usrStart =='Y') and not(usrStart =='N')):
     usrStart = raw_input("Press 'Y' if you want to start, 'N' if you don't.\n >")
@@ -133,5 +134,3 @@ def main():
     print "Player 2 wins"
   else:
     print "It's a draw"				#Main function
-
-main()

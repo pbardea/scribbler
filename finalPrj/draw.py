@@ -23,6 +23,12 @@ def draw_O_bottom(lr):
     forward(1, 0.42)
     stop()
 
+def draw_O_at(ud,lr):
+  if ud == "up":
+    draw_O_top(lr)
+  else:
+    draw_O_bottom(lr)
+
 # draw straight line
 #use c=1, d=-1 or vise versa
 # 45 degree turn = 0.438
