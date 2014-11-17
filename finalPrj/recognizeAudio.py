@@ -7,6 +7,8 @@ text_debug = True
 #global thesaurus
 thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','above'], 'bottom':['bottom','down','base','lowest','floor','bottommost','below','under','underneath'],'left':['left','leftmost'],'right':['right','rightmost'],'middle':['middle','between'],'centre':['centre','center'],'bot':['robot','bot','theo','mario']}
 
+
+
 def getAudio(tries):
     # r = sr.Recognizer(language = "en-US", key = "AIzaSyC0BY4MvU0DNvVkRuK0r9uSHtcl_SPdylI")
     triesThreshold = 2
