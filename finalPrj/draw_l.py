@@ -6,40 +6,46 @@
 #at full speed for all times
 
 def draw_l(ud):#it's a little L not a one
-    if(lr=="up"):
-        threesixty(-1, 1, 0.835)
+    
+    time_90 = 1.6478
+    time_box = 1.62
+    motor_speed = 0.5
+        
+    if(ud=="up"):
+        threesixty(-1*motor_speed, motor_speed, time_90)
         wait(.2)
-        forward(1, 0.8)
+        forward(motor_speed, time_box)
         wait(.2)
-        backward(1, 0.8)
+        backward(motor_speed, time_box)
         wait(.2)
-        threesixty(1, -1, 0.835)
+        threesixty(motor_speed, -1*motor_speed, time_90)
+    if(ud=="down"):
+        threesixty(motor_speed, -1*motor_speed, time_90)
         wait(.2)
-    if(lr=="down"):
-        threesixty(1, -1, 0.835)
+        forward(motor_speed, time_box)
         wait(.2)
-        forward(1, 0.8)
+        backward(motor_speed, time_box)
         wait(.2)
-        backward(1, 0.8)
-        wait(.2)
-        threesixty(-1, 1, 0.835)
-        wait(.2)
+        threesixty(-1*motor_speed, motor_speed, time_90)
 
 def draw_l_left_and_right(ud, lr):
-    threesixty(1, -1, 0.835)
+    
+    time_90 = 1.65
+    time_half_box = 0.82
+    motor_speed = 0.5
+    
+    threesixty(motor_speed, -1*motor_speed, time_90)
     wait(.2)
     if (lr=="left"):
-        backward(1, 0.4)
+        backward(motor_speed, time_half_box)
         wait(.2)
         draw_l(ud)
-        forward(1, 0.4)
+        forward(motor_speed, time_half_box)
     elif (lr=="right"):
-        forward(1, 0.4)
+        forward(motor_speed, time_half_box)
         wait(.2)
         draw_l(ud)
-        backward(1, 0.4)
+        backward(motor_speed, time_half_box)
     wait(.2)
-    threesixty(-1, 1, 0.835)
+    threesixty(-1*motor_speed, motor_speed, time_90-0.1)
 
-##everything here is for going to the right so far
-##both of these are the same!
