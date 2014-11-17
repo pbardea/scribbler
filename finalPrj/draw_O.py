@@ -1,3 +1,5 @@
+from myro import *
+
 def draw_O(lr):
     time_O = 5.04335
     if(lr=="left"):

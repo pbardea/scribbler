@@ -4,10 +4,13 @@
 ##
 ###use cartesian plane for dictionary
 ###
+from myro import *
+import threesixty
+pos = 1
+grid_position = {1: [-0.5, -0.5], 2: [-0.5, 0.5], 3: [0.5, 0.5], 4: [0.5, -0.5]}
 
 
-
-def vertical_movement(ud):
+def vertical_movement(ud):#move up or down by a cell
     time_box = 1.62
     motor_speed = 0.5
     if(ud=="up"):
@@ -15,25 +18,27 @@ def vertical_movement(ud):
     if(ud=="down"):
         backward(motor_speed, time_box)
 
-def horizontal_movement(lr):
+def getPos(): #returns current position of the robot
+    return grid_position[pos]
+
+def horizontal_movement(lr): #moves left or right by 1 cell
     time_90 = 1.6478
     time_box = 1.62
     motor_speed = 0.5
     if(lr=="right"):
-        threesixty(motor_speed, -1*motor_speed, time_90)
+        threesixty.threesixty(motor_speed, -1*motor_speed, time_90)
         wait(.2)
         forward(motor_speed, time_90)
         wait(.2)
-        threesixty(-1*motor_speed, motor_speed, time_90)
+        threesixty.threesixty(-1*motor_speed, motor_speed, time_90)
     if(lr=="left"):
-        threesixty(-1*motor_speed, motor_speed, time_90)
+        threesixty.threesixty(-1*motor_speed, motor_speed, time_90)
         wait(.2)
         forward(motor_speed, time_90)
         wait(.2)
-        threesixty(motor_speed, -1*motor_speed, time_90)
+        threesixty.threesixty(motor_speed, -1*motor_speed, time_90)
 
-def movement(position, destination):
-    grid_position = {1: {-0.5, -0.5}, 2: {-0.5, 0.5}, 3: {0.5, 0.5}, 4: {0.5, -0.5}}
+def movement(position, destination):#moves from position to destination
 
 #straight lines between positions
     
@@ -67,4 +72,6 @@ def movement(position, destination):
         horizontal_movement("left")
     if (position == 4 and destination == 2):
         horizontal_movement("left")
-        vertical_position("up")
+        vertical_movement("up")
+
+    pos = destination
