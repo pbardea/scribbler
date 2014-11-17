@@ -1,9 +1,37 @@
+from myro import *
+
+#draw 0
+def draw_O(lr):
+    time_O = 5.04335
+    if(lr=="left"):
+        while timeRemaining(time_O):
+            motors(-.27, 1.0)
+    if(lr=="right"):
+        while timeRemaining(time_O):
+            motors(1.0, -.27)
+
+
+def draw_O_top(lr):
+    forward(1, 0.32)
+    draw_O(lr)
+    backward(1, 0.42)
+    stop()
+
+def draw_O_bottom(lr):
+    backward(1, 0.32)
+    draw_O(lr)
+    forward(1, 0.42)
+    stop()
+
+# draw straight line
 #use c=1, d=-1 or vise versa
 # 45 degree turn = 0.438
 # 90 degree turn = 0.835
 # 180 degree turn = 1.6478
 # 360 degree turn = 3.2835
 #at full speed for all times
+
+#accepts up, down, left and right
 
 def draw_l(ud):#it's a little L not a one
     
@@ -28,7 +56,7 @@ def draw_l(ud):#it's a little L not a one
         wait(.2)
         threesixty(-1*motor_speed, motor_speed, time_90)
 
-def draw_l_left_and_right(ud, lr):
+def draw_l_at(ud, lr):
     
     time_90 = 1.65
     time_half_box = 0.82
