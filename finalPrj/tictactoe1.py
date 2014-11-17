@@ -76,10 +76,9 @@ def twoLeft(): 			#Checks if a row/column/diagonal has two spaces taken and one 
 
 def usrTurn():			#Function that executes a user's turn
   flag = 0
-  n1 = -99
   while(flag==0): 
-    n1 = input("Player 1\n >")#recognizeAudio.getMove()
-    if board[n1] == '_' and n1 >= 0 and n1 <= 8:
+    n1 = recognizeAudio.getMove()#input("Player 1\n >")
+    if n1 >= 0 and n1 <= 8 and board[n1] == '_':
       flag = 1
   board[n1] = 'X'
 

@@ -2,16 +2,17 @@
 Used to read in speech input and convert it to a action represented by numeric output.
 """
 import speech_recognition as sr #import the speech recognition module
-text_debug = True
+text_debug = False
 
 #global thesaurus
-thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','above'], 'bottom':['bottom','down','base','lowest','floor','bottommost','below','under','underneath'],'left':['left','leftmost'],'right':['right','rightmost'],'middle':['middle','between'],'centre':['centre'],'bot':{'robot','bot','theo','mario'}}
+thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','above'], 'bottom':['bottom','down','base','lowest','floor','bottommost','below','under','underneath'],'left':['left','leftmost'],'right':['right','rightmost'],'middle':['middle','between'],'centre':['centre','center'],'bot':{'robot','bot','theo','mario'}}
 
 def getAudio(tries):
     # r = sr.Recognizer(language = "en-US", key = "AIzaSyC0BY4MvU0DNvVkRuK0r9uSHtcl_SPdylI")
     triesThreshold = 2
     r = sr.Recognizer() #initialize the recognizer
     audioStr  = "Nothing yet..."
+    raw_input("Press enter when you are ready to give a command.") #waits until user is ready. user presses entre to indicate that they are ready to start speaking
     print "Listening..."
     with sr.Microphone() as source: #Take the microphone as the audio source
         audio = r.listen(source) #listen until the first pause
@@ -33,6 +34,8 @@ def getAudio(tries):
 
 def convertCartToArr(cartesian):
     arrayCoord = -1;
+    if -99 in cartesian:
+      return -1
     for i in range(-1,2):
         for j in range(-1,2):
             if (cartesian[0] == i and cartesian[1] == j):
@@ -50,26 +53,43 @@ def wordToInt(word):
 
 def relativeMotion(statement, botPos):#if a robot keyword is triggered, the last 10 words is passed back for decomposition
   #define botPos as a cartesian system with the bottom left corner of the centre cell as 0,0. Assuming staying on corners of centre cell
-  horizontal = botPos[0]-0.5
-  vertical = botPos[1]+0.5
+  horizontal = botPos[0]
+  vertical = botPos[1]
   lastInt = 1 #default, so if user says 'left', it will move one left of the robot by deafult
   for word in statement:
     if wordToInt(word) >= 0: #then a number was spoken
       lastInt = wordToInt(word)
     else: #process as a word
       if word in thesaurus['top']:
-        vertical += lastInt
+        if lastInt == 1:
+          vertical += 0.5
+        else:
+          vertical += 1.5
         lastInt = 1
       elif word in thesaurus['bottom']:
-        vertical -= lastInt
+        if lastInt == 1:
+          vertical -= 0.5
+        else:
+          vertical -= 1.5
         lastInt = 1
       elif word in thesaurus['left']:
-        horizontal -= lastInt
+        if lastInt == 1:
+          horizontal -= 0.5
+        else:
+          horizontal -= 1.5
         lastInt = 1
       elif word in thesaurus['right']:
-        horizontal += lastInt
+        if lastInt == 1:
+          horizontal += 0.5
+        else:
+          horizontal += 1.5
         lastInt = 1
-  return [horizontal,vertical]
+  if horizontal == -99 or vertical == -99:
+    print horizontal, vertical, "line 76"
+    return getMove()
+  else:
+    print horizontal, vertical, "all good!"
+    return [horizontal,vertical]
 
 
 def interpret(spoken,botPos):
@@ -92,7 +112,7 @@ def interpret(spoken,botPos):
             horizontal = 0
         elif word in thesaurus['middle']:
             vertical = 0
-        elif word == thesaurus['centre']:
+        elif word in thesaurus['centre']:
             vertical = 0
             horizontal = 0
         elif word in thesaurus['bot']:
@@ -100,7 +120,7 @@ def interpret(spoken,botPos):
             newPos = relativeMotion(spoken,[-0.5,0.5]) 
             horizontal = newPos[0]
             vertical = newPos[1]
-            break
+            return convertCartToArr([horizontal,vertical])
         print word, horizontal, vertical
     return convertCartToArr([horizontal,vertical])
     
