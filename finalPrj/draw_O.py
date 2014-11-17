@@ -1,9 +1,10 @@
 def draw_O(lr):
+    time_O = 5.04335
     if(lr=="left"):
-        while timeRemaining(5.04335):
+        while timeRemaining(time_O):
             motors(-.27, 1.0)
     if(lr=="right"):
-        while timeRemaining(5.045335):
+        while timeRemaining(time_O):
             motors(1.0, -.27)
 
 
