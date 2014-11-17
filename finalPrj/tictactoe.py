@@ -1,5 +1,6 @@
 from random import randint
 import recognizeAudio
+import draw
 import movement
 
 board = {}				#Creating and initializing the grid
@@ -75,6 +76,11 @@ def twoLeft(): 			#Checks if a row/column/diagonal has two spaces taken and one 
         return [comb[1], 'X']
   return [-1, '_']
 
+def arrToCart(arr):
+  hor  = arr%3-1
+  vert = -(arr/3)+1
+  return [hor,vert]
+
 def usrTurn():			#Function that executes a user's turn
   flag = 0
   while(flag==0): 
@@ -82,27 +88,35 @@ def usrTurn():			#Function that executes a user's turn
     if n1 >= 0 and n1 <= 8 and board[n1] == '_':
       flag = 1
   board[n1] = 'X'
+  movement.play(arrToCart(n1),'l')
+
 
 def cpuTurn():			#Function that executes a CPU's turn. This is where the priority list is.
   flag = 0
   print("CPU's turn")
   if(twoLeft()[1] == 'O'):		#Priority one- Complete your line
     board[twoLeft()[0]] = 'O'
+    movement.play(arrToCart(twoLeft()[0]),'O')
     return
   elif(twoLeft()[1] == 'X'):		#Priority two - Block the opponent's line
     board[twoLeft()[0]] = 'O'
+    movement.play(arrToCart(twoLeft()[0]),'O')
     return
   elif oneLeft():					#Priority three - Block fork by creating an opportunity
     board[oneLeft()[0]] = 'O'
+    movement.play(arrToCart(oneLeft()[0]),'O')
   elif board[4] == '_':					#Priority four - Get the center
     board[4] = 'O'
+    movement.play(arrToCart(4),'O')
     return
   elif chkCorner()!=-1:			#Priority five - Get the opposite end	
     board[chkCorner()] = 'O'
+    movement.play(arrToCart(chkCorner()),'O')
   else:							#Priority six - Whatever. I don't care
     for i in range(0,9):
       if board[i] == '_':
         board[i] = 'O'
+        movement.play(arrToCart(i),'O')
         break
 
 def run():

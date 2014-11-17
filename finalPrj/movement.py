@@ -5,6 +5,7 @@
 ###use cartesian plane for dictionary
 ###
 from myro import *
+import draw
 
 curPos = 1
 grid_position = {1: [-0.5, -0.5], 2: [-0.5, 0.5], 3: [0.5, 0.5], 4: [0.5, -0.5]}
@@ -69,9 +70,8 @@ def play(destination, element): #move to right corner and play, destination is i
     valid = safeRemove(valid,2)
     valid = safeRemove(valid,3)
   if destination[0] == destination[1] and destination[0] == 0:
-    valid = safeRemove(valid,2)
-    valid = safeRemove(valid,3)
-    valid = safeRemove(valid,4)
+    valid = [1]
+  navCorner(curPos,valid[0])
   ud = "up"
   lr = "left"
   if destination[0] < cartPos[0]:
@@ -83,9 +83,9 @@ def play(destination, element): #move to right corner and play, destination is i
   else:
     ud = "up"
   if element == "O":
-    draw_O_at(ud,lr)
+    draw.draw_O_at(ud,lr)
   else:
-    draw_l_at(ud,lr)
+    draw.draw_l_at(ud,lr)
 
 def navCorner(position, destination):#moves from position to destination
 

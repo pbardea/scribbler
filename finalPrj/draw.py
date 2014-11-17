@@ -1,4 +1,5 @@
 from myro import *
+import movement
 
 #draw 0
 def draw_O(lr):
@@ -46,21 +47,21 @@ def draw_l(ud):#it's a little L not a one
     motor_speed = 0.5
         
     if(ud=="up"):
-        threesixty(-1*motor_speed, motor_speed, time_90)
+        movement.threesixty(-1*motor_speed, motor_speed, time_90)
         wait(.2)
         forward(motor_speed, time_box)
         wait(.2)
         backward(motor_speed, time_box)
         wait(.2)
-        threesixty(motor_speed, -1*motor_speed, time_90)
+        movement.threesixty(motor_speed, -1*motor_speed, time_90)
     if(ud=="down"):
-        threesixty(motor_speed, -1*motor_speed, time_90)
+        movement.threesixty(motor_speed, -1*motor_speed, time_90)
         wait(.2)
         forward(motor_speed, time_box)
         wait(.2)
         backward(motor_speed, time_box)
         wait(.2)
-        threesixty(-1*motor_speed, motor_speed, time_90)
+        movement.threesixty(-1*motor_speed, motor_speed, time_90)
 
 def draw_l_at(ud, lr):
     
@@ -68,7 +69,7 @@ def draw_l_at(ud, lr):
     time_half_box = 0.82
     motor_speed = 0.5
     
-    threesixty(motor_speed, -1*motor_speed, time_90)
+    movement.threesixty(motor_speed, -1*motor_speed, time_90)
     wait(.2)
     if (lr=="left"):
         backward(motor_speed, time_half_box)
@@ -81,5 +82,5 @@ def draw_l_at(ud, lr):
         draw_l(ud)
         backward(motor_speed, time_half_box)
     wait(.2)
-    threesixty(-1*motor_speed, motor_speed, time_90-0.1)
+    movement.threesixty(-1*motor_speed, motor_speed, time_90-0.1)
 
