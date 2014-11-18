@@ -1,26 +1,50 @@
 import winsound
 from myro import*
 from time import sleep
+from threading import Thread
+bound = 1000
+headerLength = 44
+
+def playMusic(string):
+    thread = Thread(target = mario)
+    thread.start()
+    thread.join()
+
+def readChunk(f):
+    temp = f.read(8)
+    hi = ord(temp[7])%128*256*256*256+ord(temp[6])*256*256+ord(temp[5])*256+ord(temp[4])
+    temp = f.read(hi)
+    print "headerLength #1: "+str(hi)
+
+def conv(ch):
+    val = ord(ch)
+    val = val%16 * 16 + val/16
+    return val
+
 def thing():
-    f = open("test.wav","rb")
+    f = open("test8000.wav","rb")
     value = 54315761
     try:
-        temp = f.read(44)
+        temp = f.read(108)
         count = 0;
-        spacing = 4410
-        time = 1000
-        while True:
+        spacing = 80
+        time = 10#ms
+        while True and count<bound*spacing:
             temp = f.read(spacing*4)
             count += spacing
             if len(temp)==0:
                 break;
-            value = ord(temp[1])+(ord(temp[0])%128)*256;
-            if(temp[0]<128):
-                value *=-1
+            value=0
+            for i in range(0,spacing):
+                tempNum = (conv(temp[i*4+2])+(conv(temp[i*4+3])%128)*256)
+                if tempNum%2 == 1:
+                    tempNum*=1
+                value += tempNum/2
+            value/=(spacing-1)
             print "Beep: "+str(value)+" with time: "+str(time)
-            if value>36:
+            if value>36 and value<=20000:
                 #winsound.Beep(value,time)
-                myNote(value,time)
+                myNote(value/4.0,time)
         print "Counted "+str(count)+" samples"
     finally:
         f.close()
@@ -30,8 +54,8 @@ timeFactor = 1
 lastNoteTime = 0
 def myNote(f,t):
     lastNoteTime=t/1000.0
-    beep(lastNoteTime*timeFactor,f*4)
-    print "beep at frq "+str(f)
+    beep(lastNoteTime*timeFactor,(int)(f*4))
+    #print "beep at frq "+str(f*4)
 def mySleep(t):
     sleep((t/1000.0-lastNoteTime)*timeFactor)
 
