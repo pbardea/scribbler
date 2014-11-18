@@ -2,7 +2,7 @@
 Used to read in speech input and convert it to a action represented by numeric output.
 """
 import speech_recognition as sr #import the speech recognition module
-text_debug = True
+text_debug = False
 
 #global thesaurus
 thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','above'], 'bottom':['bottom','down','base','lowest','floor','bottommost','below','under','underneath'],'left':['left','leftmost'],'right':['right','rightmost'],'middle':['middle','between'],'centre':['centre','center'],'bot':['robot','bot','theo','mario']}
@@ -90,7 +90,7 @@ def relativeMotion(statement, botPos):#if a robot keyword is triggered, the last
     print horizontal, vertical, "line 76"
     return getMove()
   else:
-    print horizontal, vertical, "all good!"
+    print botPos[0], botPos[1], horizontal, vertical, "all good!"
     return [horizontal,vertical]
 
 
