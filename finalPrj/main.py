@@ -2,7 +2,7 @@ import draw
 import movement
 import recognizeAudio
 import tictactoe
-debug = True
+debug = False
 
 if (not debug):
   from myro import *

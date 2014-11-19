@@ -7,7 +7,6 @@
 from myro import *
 import draw
 
-curPos = 1
 grid_position = {1: [-0.5, -0.5], 2: [-0.5, 0.5], 3: [0.5, 0.5], 4: [0.5, -0.5]}
 
 
@@ -30,8 +29,8 @@ def vertical_movement(ud):#move up or down by a cell
     if(ud=="down"):
         backward(motor_speed, time_box)
 
-def getPos(): #returns current position of the robot
-    return grid_position[curPos]
+# def getPos(curPos): #returns current position of the robot
+#     return grid_position[curPos]
 
 def horizontal_movement(lr): #moves left or right by 1 cell
     time_90 = 1.6478
@@ -54,24 +53,29 @@ def safeRemove(a,x):
     a.remove(x)
   return a
 
-def play(destination, element): #move to right corner and play, destination is in cart form
-  cartPos = grid_position[curPos]
+def play(curPos,destination, element): #move to right corner and play, destination is in cart form
+  print "curPos",curPos
+  cartPos = grid_position[curPos]#of robot
   valid = [1,2,3,4]
-  if destination[0] >= 0:
+  if destination[0] == 1:
     valid = safeRemove(valid,1)
     valid = safeRemove(valid,2)
-  if destination[0] == -1:
+  elif destination[0] == -1:
     valid = safeRemove(valid,3)
     valid = safeRemove(valid,4)
-  if destination[1] >= 0:
+  if destination[1] == 1:
     valid = safeRemove(valid,1)
     valid = safeRemove(valid,4)
-  if destination[1] == -1:
+  elif destination[1] == -1:
     valid = safeRemove(valid,2)
     valid = safeRemove(valid,3)
-  if destination[0] == destination[1] and destination[0] == 0:
-    valid = [1]
-  navCorner(curPos,valid[0])
+  if curPos in valid:
+    valid = [curPos]
+  print "cartPos: ",cartPos,"valid",valid,"curpos",curPos,"destination",destination
+  navCorner(curPos,valid[0])#both in arr form
+  curPos = valid[0] #valid 
+  cartPos = grid_position[curPos]
+  print "cartPos: ",cartPos, "destination:",destination,"curpos",curPos
   ud = "up"
   lr = "left"
   if destination[0] < cartPos[0]:
@@ -83,44 +87,63 @@ def play(destination, element): #move to right corner and play, destination is i
   else:
     ud = "up"
   if element == "O":
+    print "O",ud,lr
     draw.draw_O_at(ud,lr)
   else:
+    print "l",ud,lr
     draw.draw_l_at(ud,lr)
+  return curPos
 
 def navCorner(position, destination):#moves from position to destination
 
 #straight lines between positions
+    print "move from ",position," to ",destination
+
     
     if (position == 1 and destination == 2):
+        print "move up"
         vertical_movement("up")
     if (position == 4 and destination == 3):
+        print "move up"
         vertical_movement("up")
     if (position == 2 and destination == 1):
+        print "move down"
         vertical_movement("down")
     if (position == 3 and destination == 4):
+        print "move down"
         vertical_movement("down")
     if (position == 1 and destination == 4):
+        print "move right"
         horizontal_movement("right")
     if (position == 2 and destination == 3):
+        print "move right"
         horizontal_movement("right")
     if (position == 4 and destination == 1):
+        print "move left"
         horizontal_movement("left")
     if (position == 3 and destination == 2):
+        print "move left"
         horizontal_movement("left")
         
 #diagonals between positions
 
     if (position == 1 and destination == 3):
+        print "move up"
         vertical_movement("up")
+        print "move right"
         horizontal_movement("right")
     if (position == 2 and destination == 4):
+        print "move right"
         horizontal_movement("right")
+        print "move down"
         vertical_movement("down")
     if (position == 3 and destination == 1):
+        print "move down"
         vertical_movement("down")
+        print "move left"
         horizontal_movement("left")
     if (position == 4 and destination == 2):
+        print "move left"
         horizontal_movement("left")
+        print "move up"
         vertical_movement("up")
-
-    curPos = destination

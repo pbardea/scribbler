@@ -1,4 +1,4 @@
-import winsound
+# import winsound
 from myro import*
 from time import sleep
 from threading import Thread
