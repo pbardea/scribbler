@@ -6,6 +6,7 @@ import draw
 import movement
 
 debug = False
+botPos = 1
 
 board = {}				#Creating and initializing the grid
 for i in range(0, 9):
@@ -85,7 +86,8 @@ def arrToCart(arr):
   vert = -(arr/3)+1
   return [hor,vert]
 
-def usrTurn(botPos):			#Function that executes a user's turn
+def usrTurn():			#Function that executes a user's turn
+  global botPos
   print "botpos 89",botPos
   flag = 0
   while(flag==0): 
@@ -95,12 +97,12 @@ def usrTurn(botPos):			#Function that executes a user's turn
   if (not debug):
     botPos = movement.play(botPos,arrToCart(n1),'l')
   board[n1] = 'X'
-  return botPos
     
 
 
-def cpuTurn(diff,botPos):			#Function that executes a CPU's turn. This is where the priority list is.
+def cpuTurn(diff):			#Function that executes a CPU's turn. This is where the priority list is.
   flag = 0
+  global botPos
   print "Start botpos",botPos
   print("CPU's turn")
   if diff == 'H':
@@ -161,12 +163,11 @@ def cpuTurn(diff,botPos):			#Function that executes a CPU's turn. This is where 
         	botPos = movement.play(botPos,arrToCart(i),'O')
         board[i] = 'O'
         flag = 1
-  return botPos
 
 def run():
+  global botPos
   usrStart = 0					
   diff = ''
-  botPos = 1
   #wav.playMusic('')
   while(not(usrStart =='Y') and not(usrStart =='N')):
     speak("Press 'Y' if you want to start, 'N' if you don't.")
@@ -176,9 +177,9 @@ def run():
     diff = raw_input(" >")
   while(gridComplete()==0):
     if usrStart=='Y':
-      botPos = usrTurn(botPos)
+      usrTurn()
     elif usrStart=='N':
-      botPos = cpuTurn(diff,botPos)
+      cpuTurn(diff)
     drawGrid()
     if(win()!=0):
       break
@@ -186,9 +187,9 @@ def run():
     if(gridComplete() == 1):
       break
     if usrStart=='Y':
-      botPos =cpuTurn(diff,botPos)
+      cpuTurn(diff)
     elif usrStart=='N':
-      botPos = usrTurn(botPos)
+      usrTurn()
     drawGrid()
     if(win()!=0):
       break

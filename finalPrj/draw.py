@@ -3,14 +3,14 @@ import movement
 
 #draw 0
 def draw_O(lr):
-    time_O_right = 5.04335
-    time_O_left = 5.04335
+    time_O_right = 9.9
+    time_O_left = 9.95
     if(lr=="left"):
         while timeRemaining(time_O_left):
-            motors(-.27, 1.0)
+            motors(-.135, 0.5)
     if(lr=="right"):
         while timeRemaining(time_O_right):
-            motors(1.0, -.27)
+            motors(0.5, -.135)
 
 
 def draw_O_top(lr):
@@ -43,37 +43,38 @@ def draw_O_at(ud,lr):
 
 def draw_l_at(ud, lr):
     
-    time_45_right = 0.835
-    time_45_left = 0.835
-    time_diagonal_box = 0.82
-    motor_speed = 0.5
+    time_45_right = 3.04/2
+    time_45_left = 3.05/2
+    time_diagonal_box = 1.57
+    motor_speed_turn = 0.3
+    motor_speed_lateral = 0.5
 
     if (ud=="up" and lr=="right"):
-        movement.threesixty(motor_speed, -1*motor_speed, time_45_right)#right turn
-        forward(time_diagonal_box)
+        movement.threesixty(motor_speed_turn, -1*motor_speed_turn, time_45_right)#right turn
+        forward(motor_speed_lateral,time_diagonal_box)
         wait(.2)
-        backward(time_diagonal_box)
-        movement.threesixty(-1*motor_speed, motor_speed, time_45_left)#left turn
+        backward(motor_speed_lateral,time_diagonal_box)
+        movement.threesixty(-1*motor_speed_turn, motor_speed_turn, time_45_left)#left turn
 
     if (ud=="up" and lr=="left"):
-        movement.threesixty(-1*motor_speed, motor_speed, time_45_left)#left turn
-        forward(time_diagonal_box)
+        movement.threesixty(-1*motor_speed_turn, motor_speed_turn, time_45_left)#left turn
+        forward(motor_speed_lateral,time_diagonal_box)
         wait(.2)
-        backward(time_diagonal_box)
-        movement.threesixty(motor_speed, -1*motor_speed, time_45_right)#right turn
+        backward(motor_speed_lateral,time_diagonal_box)
+        movement.threesixty(motor_speed_turn, -1*motor_speed_turn, time_45_right)#right turn
 
     if (ud=="down" and lr=="right"):
-        movement.threesixty(-1*motor_speed, motor_speed, time_45_left)#left turn
-        backward(time_diagonal_box)
+        movement.threesixty(-1*motor_speed_turn, motor_speed_turn, time_45_left)#left turn
+        backward(motor_speed_lateral,time_diagonal_box)
         wait(.2)
-        forward(time_diagonal_box)
-        movement.threesixty(motor_speed, -1*motor_speed, time_45_right)#right turn
+        forward(motor_speed_lateral,time_diagonal_box)
+        movement.threesixty(motor_speed_turn, -1*motor_speed_turn, time_45_right)#right turn
 
     if (ud=="down" and lr=="left"):
-        movement.threesixty(motor_speed, -1*motor_speed, time_45_right)#right turn
-        backward(time_diagonal_box)
+        movement.threesixty(motor_speed_turn, -1*motor_speed_turn, time_45_right)#right turn
+        backward(motor_speed_lateral,time_diagonal_box)
         wait(.2)
-        forward(time_diagonal_box)
-        movement.threesixty(-1*motor_speed, motor_speed, time_45_left)#left turn
+        forward(motor_speed_lateral,time_diagonal_box)
+        movement.threesixty(-1*motor_speed_turn, motor_speed_turn, time_45_left)#left turn
     
    

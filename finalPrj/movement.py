@@ -1,6 +1,5 @@
 ##2|3
-##_|_
-##1|4
+##_|_ ##1|4
 ##
 ###use cartesian plane for dictionary
 ###
@@ -22,33 +21,38 @@ def threesixty(c, d, t):
 
 
 def vertical_movement(ud):#move up or down by a cell
-    time_box = 1.62
-    motor_speed = 0.5
+    time_box_fwd = 1.57
+    time_box_back = 1.6
+    motor_speed_lateral = 0.5
+    motor_speed_turn = 0.3
     if(ud=="up"):
-        forward(motor_speed, time_box)
+        forward(motor_speed_lateral, time_box_fwd)
     if(ud=="down"):
-        backward(motor_speed, time_box)
+        backward(motor_speed_lateral, time_box_back)
 
 # def getPos(curPos): #returns current position of the robot
 #     return grid_position[curPos]
 
 def horizontal_movement(lr): #moves left or right by 1 cell
-    time_90_right = 1.6478 #time for motors to turn right
-    time_90_left = 1.6478 #time for motors to turnn left
-    time_box = 1.62
-    motor_speed = 0.5
+    time_90_right = 3.04 #time for motors to turn right
+    time_90_left = 3.05 #time for motors to turnn left
+    time_box_fwd = 1.57
+    time_box_back = 1.6
+    motor_speed_turn = 0.3
+    motor_speed_lateral = 0.5
     if(lr=="right"):
-        threesixty(motor_speed, -1*motor_speed, time_90_left)#left turn
+        threesixty(motor_speed_turn, -1*motor_speed_turn, time_90_left)#right turn
         wait(.2)
-        forward(motor_speed, time_90)
+        forward(motor_speed_lateral, time_box_fwd)
         wait(.2)
-        threesixty(-1*motor_speed, motor_speed, time_90_right)#right turn
+        threesixty(-1*motor_speed_turn, motor_speed_turn, time_90_right)#left turn
     if(lr=="left"):
-        threesixty(-1*motor_speed, motor_speed, time_90_right)#right turn
+        threesixty(-1*motor_speed_turn, motor_speed_turn, time_90_right)#left turn
         wait(.2)
-        forward(motor_speed, time_90)
+        forward(motor_speed_lateral, time_box_fwd)
         wait(.2)
-        threesixty(motor_speed, -1*motor_speed, time_90_left)#left turn
+        threesixty(motor_speed_turn, -1*motor_speed_turn, time_90_left)#right turn
+
 def safeRemove(a,x):
   if x in a:
     a.remove(x)
@@ -75,6 +79,8 @@ def play(curPos,destination, element): #move to right corner and play, destinati
   print "cartPos: ",cartPos,"valid",valid,"curpos",curPos,"destination",destination
   navCorner(curPos,valid[0])#both in arr form
   curPos = valid[0] #valid 
+  if (not curPos):
+    print "NOT CUR POS!cartPos: ",cartPos,"valid",valid,"curpos",curPos,"destination",destination
   cartPos = grid_position[curPos]
   print "cartPos: ",cartPos, "destination:",destination,"curpos",curPos
   ud = "up"
