@@ -3,12 +3,13 @@ import movement
 
 #draw 0
 def draw_O(lr):
-    time_O = 5.04335
+    time_O_right = 5.04335
+    time_O_left = 5.04335
     if(lr=="left"):
-        while timeRemaining(time_O):
+        while timeRemaining(time_O_left):
             motors(-.27, 1.0)
     if(lr=="right"):
-        while timeRemaining(time_O):
+        while timeRemaining(time_O_right):
             motors(1.0, -.27)
 
 
@@ -42,34 +43,36 @@ def draw_O_at(ud,lr):
 
 def draw_l(ud):#it's a little L not a one
     
-    time_90 = 1.6478
+    time_90_right = 1.6478
+    time_90_left = 1.6478
     time_box = 1.62
     motor_speed = 0.5
         
     if(ud=="up"):
-        movement.threesixty(-1*motor_speed, motor_speed, time_90)
+        movement.threesixty(-1*motor_speed, motor_speed, time_90_left)#left turn
         wait(.2)
         forward(motor_speed, time_box)
         wait(.2)
         backward(motor_speed, time_box)
         wait(.2)
-        movement.threesixty(motor_speed, -1*motor_speed, time_90)
+        movement.threesixty(motor_speed, -1*motor_speed, time_90_right)#right turn
     if(ud=="down"):
-        movement.threesixty(motor_speed, -1*motor_speed, time_90)
+        movement.threesixty(motor_speed, -1*motor_speed, time_90_right)#right turn
         wait(.2)
         forward(motor_speed, time_box)
         wait(.2)
         backward(motor_speed, time_box)
         wait(.2)
-        movement.threesixty(-1*motor_speed, motor_speed, time_90)
+        movement.threesixty(-1*motor_speed, motor_speed, time_90_left)#left turn
 
 def draw_l_at(ud, lr):
     
-    time_90 = 1.65
+    time_90_right = 1.65
+    time_90_left = 1.65
     time_half_box = 0.82
     motor_speed = 0.5
     
-    movement.threesixty(motor_speed, -1*motor_speed, time_90)
+    movement.threesixty(motor_speed, -1*motor_speed, time_90_left)#left turn
     wait(.2)
     if (lr=="left"):
         backward(motor_speed, time_half_box)
@@ -82,5 +85,5 @@ def draw_l_at(ud, lr):
         draw_l(ud)
         backward(motor_speed, time_half_box)
     wait(.2)
-    movement.threesixty(-1*motor_speed, motor_speed, time_90-0.1)
+    movement.threesixty(-1*motor_speed, motor_speed, time_90_right)#right turn
 
