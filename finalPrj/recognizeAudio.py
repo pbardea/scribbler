@@ -2,11 +2,13 @@
 Used to read in speech input and convert it to a action represented by numeric output.
 """
 import speech_recognition as sr #import the speech recognition module
-text_debug = True
+from myro import *
+import tictactoe
+import wav
+text_debug = False
 
 #global thesaurus
-thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','above'], 'bottom':['bottom','down','base','lowest','floor','bottommost','below','under','underneath'],'left':['left','leftmost'],'right':['right','rightmost'],'middle':['middle','between'],'centre':['centre','center'],'bot':['robot','bot','theo','mario']}
-
+thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','above'], 'bottom':['bottom','down','base','lowest','floor','bottommost','below','under','underneath','lower'],'left':['left','leftmost'],'right':['right','rightmost'],'middle':['middle','between'],'centre':['centre','center'],'bot':['robot','bot','theo','mario','bots'],'music':['music','sound'],'yes':['yes','affermative','positive'],'no':['no','nope','negative'],'hard':['hard','difficult'],'medium':['medium'],'easy':['easy']}
 
 
 def getAudio(tries):
@@ -14,24 +16,26 @@ def getAudio(tries):
     triesThreshold = 2
     r = sr.Recognizer() #initialize the recognizer
     audioStr  = "Nothing yet..."
-    raw_input("Press enter when you are ready to give a command.") #waits until user is ready. user presses entre to indicate that they are ready to start speaking
+    speak("Press enter when you are ready to give a command.")
+    raw_input("> ") #waits until user is ready. user presses entre to indicate that they are ready to start speaking
     print "Listening..."
     with sr.Microphone() as source: #Take the microphone as the audio source
         audio = r.listen(source) #listen until the first pause
 
     r.pause_threshold = 0.8
-    r.energy_threshold = 200
+    r.energy_threshold = 100
 
     try:
         audioStr  = r.recognize(audio) #store audio in audioStr
     except LookupError: #can't understand audio
         if tries < triesThreshold:
-            print "Sorry, didn't catch that. Please try again."
+            speak("I did not understand you. Try again frosh.")
             audioStr = getAudio(tries+1)
         else:
-            audioStr = raw_input("Could not understand audio, please enter your command: ")
+            audioStr = speak("Sorry, I could not understand what you are saying, please type in your command: ")
         # audioStr = "Could not understand audio"
 
+    print audioStr
     return audioStr
 
 def convertCartToArr(cartesian):
@@ -48,7 +52,7 @@ def convertCartToArr(cartesian):
     return arrayCoord
 
 def wordToInt(word):
-  convert = [['zero','none','nada'],['one','once','singular'],['two','twice','double']]
+  convert = [['zero','none','nada'],['one','once','singular'],['two','ice','twice','double']]
   for i in range(len(convert)):
     if word in convert[i]:
       return i
@@ -94,7 +98,7 @@ def relativeMotion(statement, botPos):#if a robot keyword is triggered, the last
     return [horizontal,vertical]
 
 
-def interpret(spoken,botPos):
+def interpret(spoken):
     vertical = -99
     horizontal = -99
     spoken = spoken.lower().rstrip().split()
@@ -117,14 +121,58 @@ def interpret(spoken,botPos):
         elif word in thesaurus['centre']:
             vertical = 0
             horizontal = 0
+        elif word in thesaurus['music']:
+            wav.playMusic('')
         elif word in thesaurus['bot']:
             print "Calling relative motion"
-            newPos = relativeMotion(spoken,[-0.5,0.5]) 
+            newPos = relativeMotion(spoken,tictactoe.getCartBotPos()) 
             horizontal = newPos[0]
             vertical = newPos[1]
             return convertCartToArr([horizontal,vertical])
         print word, horizontal, vertical
     return convertCartToArr([horizontal,vertical])
+
+def interpretLevel(spoken):
+  spoken = spoken.lower().rstrip().split()
+  for word in spoken:
+    if word in thesaurus['hard']:
+      return 2
+    elif word in thesaurus['medium']:
+      return 1
+    elif word in thesaurus['easy']:
+      return 0
+  return -1
+
+def getUsrLevel():
+  speak("Enter the difficulty level. (Easy/Medium/Hard)")
+  spoken = getAudio(0)
+  result = -1
+  while result < 0:
+    result = interpretLevel(spoken)
+  return result
+
+def interpretStart(spoken):
+  spoken = spoken.lower().rstrip().split()
+  print spoken
+  for word in spoken:
+    print word
+    if word in thesaurus['no']:
+      print "no"
+      return 0
+    elif word in thesaurus['yes']:
+      print "yes!"
+      return 1
+  return -1
+
+
+def getUsrStart():
+  speak("Do you want to start?")
+  spoken = getAudio(0)
+  result = -1
+  while result < 0:
+    result = interpretStart(spoken)
+    print "result is",result
+  return result
     
 def getMove():
   if (text_debug):
@@ -144,4 +192,4 @@ def getMove():
                |-1,-1|0,-1|1,-1|
                ----------------
   """
-  return interpret(spoken,[-1,1])
+  return interpret(spoken)

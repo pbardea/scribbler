@@ -14,6 +14,12 @@ for i in range(0, 9):
 
 combs=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]] #List of all winning combinations
 
+grid_position = {1: [-0.5, -0.5], 2: [-0.5, 0.5], 3: [0.5, 0.5], 4: [0.5, -0.5]}
+
+def getCartBotPos():#returns botpos
+  global botPos
+  return grid_position[botPos]
+
 def drawGrid():
   for i in range(0,3):
     print '|',
@@ -170,11 +176,21 @@ def run():
   diff = ''
   #wav.playMusic('')
   while(not(usrStart =='Y') and not(usrStart =='N')):
-    speak("Press 'Y' if you want to start, 'N' if you don't.")
-    usrStart = raw_input(" >")
+    # usrStart = raw_input(" >")
+    userStart = recognizeAudio.getUsrStart()
+    if userStart == 1:
+      usrStart = 'Y'
+    if userStart == 0:
+      usrStart = 'N'
   while not(diff == 'E' or diff == 'M' or diff == 'H'):
-    speak("Enter the difficulty level. (E/M/H)")
-    diff = raw_input(" >")
+    # diff = raw_input(" >")
+    diff = recognizeAudio.getUsrLevel()
+    if diff == 0:
+      diff = 'E'
+    elif diff == 1:
+      diff = 'M'
+    elif diff == 2:
+      diff = 'H'
   while(gridComplete()==0):
     if usrStart=='Y':
       usrTurn()

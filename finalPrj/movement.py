@@ -34,8 +34,8 @@ def vertical_movement(ud):#move up or down by a cell
 #     return grid_position[curPos]
 
 def horizontal_movement(lr): #moves left or right by 1 cell
-    time_90_right = 3.04 #time for motors to turn right
-    time_90_left = 3.05 #time for motors to turnn left
+    time_90_right = 2.95 #time for motors to turn right
+    time_90_left = 3.04 #time for motors to turnn left
     time_box_fwd = 1.57
     time_box_back = 1.6
     motor_speed_turn = 0.3
@@ -46,12 +46,14 @@ def horizontal_movement(lr): #moves left or right by 1 cell
         forward(motor_speed_lateral, time_box_fwd)
         wait(.2)
         threesixty(-1*motor_speed_turn, motor_speed_turn, time_90_right)#left turn
+        wait(.2)
     if(lr=="left"):
         threesixty(-1*motor_speed_turn, motor_speed_turn, time_90_right)#left turn
         wait(.2)
         forward(motor_speed_lateral, time_box_fwd)
         wait(.2)
         threesixty(motor_speed_turn, -1*motor_speed_turn, time_90_left)#right turn
+        wait(.2)
 
 def safeRemove(a,x):
   if x in a:
