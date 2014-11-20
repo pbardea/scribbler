@@ -12,7 +12,6 @@ thesaurus = {'top':['top','up','upper','highest','uppermost','zenith','climax','
 
 
 def getAudio(tries):
-    # r = sr.Recognizer(language = "en-US", key = "AIzaSyC0BY4MvU0DNvVkRuK0r9uSHtcl_SPdylI")
     triesThreshold = 2
     r = sr.Recognizer() #initialize the recognizer
     audioStr  = "Nothing yet..."
@@ -22,7 +21,7 @@ def getAudio(tries):
     with sr.Microphone() as source: #Take the microphone as the audio source
         audio = r.listen(source) #listen until the first pause
 
-    r.pause_threshold = 0.8
+    r.pause_threshold = 0.5
     r.energy_threshold = 100
 
     try:

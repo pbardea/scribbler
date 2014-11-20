@@ -50,7 +50,7 @@ def thing():
         f.close()
     print "done!"
 
-timeFactor = 1
+timeFactor = 0.6
 lastNoteTime = 0
 def myNote(f,t):
     lastNoteTime=t/1000.0
