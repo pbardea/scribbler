@@ -17,5 +17,7 @@ To make a move, simply state where on the board you want to go (eg 'top left'), 
 
 *Difficulties*
 Easy = random moves
+
 Medium = will try to block you if you can win, but won't try to win
+
 Hard = will try to win and will block you
